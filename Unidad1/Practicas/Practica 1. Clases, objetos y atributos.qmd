@@ -1,0 +1,106 @@
+---
+title: "Practica 1. Clases, objetos y atributos"
+author: Cindy Alejandra Reyes Arce
+format: pdf
+---
+
+
+```{python}
+# Practica 1. Clases, objetos y atributos
+
+#Una clase es una plantilla o un molde que define como sera un objeto
+class Persona:
+    def __init__(self, nombre, edad): # Constructor de una clase, para agregar atributos a un objeto
+        self.nombre = nombre
+        self.edad = edad
+
+    def presentarse(self):
+            print(f"Hola mi nombre es {self.nombre}, y tengo {self.edad}")
+
+    def cumplir_anios(self):
+            self.edad += 1
+            print(f"Esta persona cumplio {self.edad}")
+
+#Un objeto es una instancia creada a partir de una clase
+estudiante1 = Persona("Cindy", 19)
+estudiante2 = Persona("Lucy", 18)
+
+#Asignar metodos a esos objetos (Acciones)
+estudiante1.presentarse() #Llamar al objeto y la accion que se hace
+estudiante1.cumplir_anios()
+
+
+#Paso 1. Agrega un metodo de cumplir_anios() que aumente en 1 la edad
+
+# INSTANCIA
+# Cada objeto creado de una clase es una instancia.
+# Podemos tener varias instancias que coexisten con sus propios datos
+
+# Objeto =instacia de la clase.
+# Cada que vez que se crea un objeto con clase() se obtiene un instanccia dependiente
+#Cada instancia tiene sus propios datos aunque vengan de la misma clase.
+
+# Abstraccion
+# Representar solo lo importante del mundo real, ocultando detalles inecesarios
+
+class automovil:
+    def __init__(self, marca):
+        self.marca = marca
+
+    def arrancar(self):
+        print(f"{self.marca}, arranco")
+
+auto = automovil("Toyota")
+auto.arrancar()
+
+# Abstraccion: Nos centramos solo en lo que importa (accion) que es arrancar el automovil,
+# ocultando detalles internos como motor, transmision, tipo_combustible.
+# Enfoque solo en la accion del objeto.
+# El objetivo es hacer el codigo mas limpio y facil de usar
+
+#Practica 1.2
+#1. Crear una clase mascotas
+#2. Agregar minimo 4 atributos
+#3. Definir al menos 4 metodos diferentes
+#4. Crear 2 instancias de la clase
+#5. Llamar los metodos y aplicar abstraccion. (Agregar un atributo innecesario)
+
+print("-----")
+class Mascota:
+    def __init__(self, nombre, color, anios, raza, col_fav):
+        self.nombre = nombre
+        self.color = color
+        self.anios = anios
+        self.raza = raza
+        self.col_fav = col_fav
+
+    def nombre_mascota(self):
+        print(f"Mi mascota se llama {self.nombre}")
+
+    def descripcion(self):
+        print(f"{self.nombre} es un {self.raza} de color {self.color} y tiene {self.anios} años.")
+
+    def cumplir_anios(self):
+        self.anios += 1
+        print(f"{self.nombre} acaba de cumplir {self.anios} años")
+
+    def color_fav(self):
+        print(f"Mi color favorito es {self.col_fav}")
+
+# Instancias
+mascota1 = Mascota("Max", "marrón", 3, "Labrador", "azul")
+mascota2 = Mascota("Luna", "blanco", 2, "Chihuahua", "rosa")
+
+# Llamar métodos
+mascota1.nombre_mascota()
+mascota1.descripcion()
+mascota1.cumplir_anios()
+mascota1.color_fav()
+
+print("-----")
+
+mascota2.nombre_mascota()
+mascota2.descripcion()
+mascota2.cumplir_anios()
+mascota2.color_fav()
+```

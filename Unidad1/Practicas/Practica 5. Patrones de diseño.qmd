@@ -1,0 +1,90 @@
+---
+title: "Practica 5. Patrones de diseño"
+author: "Cindy Alejandra Reyes Arce"
+date: 2025-09-29
+format: pdf
+---
+
+
+```{python}
+# Practica 5. Patrones de diseño
+
+class Logger:
+    # Creamos un atributo de clase donde se guarda la única instancia
+    _instancia = None
+
+    # __new__ controla la creación del objeto antes de __init__.
+    # Sirve para asegurar que solo exista una sola instancia de la clase.
+    def __new__(cls, *args, **kwargs):
+        if cls._instancia is None:
+            cls._instancia = super().__new__(cls)  # Crear la instancia
+            # Agregamos un atributo "archivo" que apunta a un archivo físico
+            # "a" significa append = todo lo que se escriba se agrega al final del archivo.
+            cls._instancia.archivo = open("app.log", "a")
+        return cls._instancia
+
+    def log(self, mensaje):
+        # Simulando un registro de logs
+        self.archivo.write(mensaje + "\n")
+        self.archivo.flush()  # Guardar en el disco
+
+
+# Creamos dos "instancias"
+logger1 = Logger()
+logger2 = Logger()
+
+# Ambos son el mismo objeto en memoria
+logger1.log("Inicio de sesion en la aplicacion")
+logger2.log("El usuario se autentico")
+
+# Comprobar que son el mismo objeto
+print(logger1 is logger2)  # True
+
+
+# Clase Presidente (Singleton)
+class Presidente:
+    _instancia = None
+
+    def __new__(cls, nombre):
+        if cls._instancia is None:
+            cls._instancia = super().__new__(cls)
+            cls._instancia.nombre = nombre
+            cls._instancia.historial = []
+        return cls._instancia
+
+    def accion(self, accion):
+        evento = f"{self.nombre} {accion}"
+        self.historial.append(evento)
+        print(evento)
+
+
+# Varios presidentes intentan tomar el poder
+p1 = Presidente("AMLO")
+p2 = Presidente("Peña Nieto")
+p3 = Presidente("Fox")
+
+# Todos apuntan al mismo presidente
+p1.accion("Firmo decreto")
+p2.accion("Visitó España")
+p3.accion("Aprobó un presupuesto")
+
+print("\nHistorial del presidente")
+print(p1.historial)
+
+# Validación de Singleton
+print(p1 is p2 is p3)  # True o false
+
+
+# 1. ¿Qué pasaría si eliminamos la verificación "if cls._instancia is None" en el método __new__?
+# Se crearía una nueva instancia cada vez que se llame a la clase, rompiendo el patrón Singleton.
+
+# 2. ¿Qué significa True en "p1 is p2 is p3" en el contexto del Singleton?
+# Que todas las variables apuntan al mismo objeto en memoria (misma instancia).
+
+# 3. ¿Es buena idea usar Singleton para todo lo que sea global?
+# No. Solo debe usarse cuando realmente deba existir UNA sola instancia.
+
+# Menciona un ejemplo donde no es recomendable:
+# manejar usuarios de una aplicación, porque puede haber muchos usuarios distintos al mismo tiempo.
+
+```

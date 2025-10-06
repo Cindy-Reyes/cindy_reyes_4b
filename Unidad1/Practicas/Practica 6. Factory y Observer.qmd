@@ -1,0 +1,98 @@
+---
+title: "Practica 6. Factory y Observer"
+autohr: "Cindy Alejandra Reyes Arce"
+date: 2025-09-29
+format: pdf
+---
+
+
+```{python}
+# Practica 6. Factory y Observer
+
+# Patrón Factory (Fábrica)
+# Idea principal: Encapsular la creación de objetos.
+# En vez de instanciar objetos con new directamente, usamos una clase/método que decide qué tipo de objeto crear según la necesidad.
+# Ventaja: Centraliza la lógica de creación, facilita mantenimiento y extensibilidad.
+
+# PATRÓN FACTORY
+# Ejemplo: Fábrica de Vehículos
+
+# Clase base Vehiculo
+class Vehiculo:
+    def __init__(self, modelo, precio):
+        self.modelo = modelo
+        self.precio = precio
+
+    def mostrar_info(self):
+        raise NotImplementedError("Este método debe ser implementado por las subclases.")
+
+# Subclases concretas
+class Auto(Vehiculo):
+    def mostrar_info(self):
+        return f"Auto: {self.modelo}, Precio: ${self.precio}"
+
+class Moto(Vehiculo):
+    def mostrar_info(self):
+        return f"Moto: {self.modelo}, Precio: ${self.precio}"
+
+class Camion(Vehiculo):
+    def mostrar_info(self):
+        return f"Camión: {self.modelo}, Precio: ${self.precio}"
+
+
+# Patrón Observer (Observador)
+# Idea principal: Define una relación uno a muchos entre objetos.
+# Cuando el objeto "sujeto" cambia su estado, notifica automáticamente a todos sus observadores.
+# Ventaja: Desacopla emisores y receptores.
+
+# PATRÓN OBSERVER
+# Ejemplo: Notificación en un Concesionario
+
+# Sujeto (Concesionario)
+class Concesionario:
+    def __init__(self):
+        self.observadores = []  # lista de clientes interesados
+        self.inventario = []
+
+    def agregar_observador(self, cliente):
+        self.observadores.append(cliente)
+
+    def quitar_observador(self, cliente):
+        self.observadores.remove(cliente)
+
+    def notificar(self, vehiculo):
+        for cliente in self.observadores:
+            cliente.actualizar(vehiculo)
+
+    def nuevo_vehiculo(self, vehiculo):
+        self.inventario.append(vehiculo)
+        print(f"\n[Concesionario] Nuevo vehículo: {vehiculo}")
+        self.notificar(vehiculo)
+
+# Observador (Cliente)
+class Cliente:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+    def actualizar(self, vehiculo):
+        print(f"> {self.nombre} fue notificado: llegó un {vehiculo}")
+
+# --------- DEMO ---------
+if __name__ == "__main__":
+    # Crear concesionario
+    concesionario = Concesionario()
+
+    # Crear clientes interesados
+    cliente1 = Cliente("Ana")
+    cliente2 = Cliente("Luis")
+    cliente3 = Cliente("Carlos")
+
+    # Registrar clientes como observadores
+    concesionario.agregar_observador(cliente1)
+    concesionario.agregar_observador(cliente2)
+    concesionario.agregar_observador(cliente3)
+
+    # Nuevo vehículo en inventario (se notifica a los clientes)
+    concesionario.nuevo_vehiculo("Auto: Toyota Corolla, $25,000")
+    concesionario.nuevo_vehiculo("Moto: Yamaha R3, $7,000")
+```
